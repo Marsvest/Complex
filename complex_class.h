@@ -2,13 +2,13 @@
 
 #include <iostream>
 
-
+template<typename T>
 class Complex {
 private:
-    float real_part;
-    float imaginary_part;
+    T real_part;
+    T imaginary_part;
 public:
-    Complex(float r = 0.0f, float i = 0.0f);
+    Complex(T r = T(0), T i = T(0));
 
     Complex operator+(const Complex &other) const;
 
@@ -20,7 +20,8 @@ public:
 
     Complex operator^(double power) const;
 
-    friend std::ostream &operator<<(std::ostream &os, const Complex &obj);
+    template<typename U>
+    friend std::ostream &operator<<(std::ostream &os, const Complex<U> &obj);
 
     bool operator<(const Complex &other) const;
 
@@ -30,29 +31,21 @@ public:
 
     bool operator!=(const Complex &other) const;
 
-    bool operator<(float other) const;
+    bool operator<(T other) const;
 
-    bool operator>(float other) const;
+    bool operator>(T other) const;
 
-    bool operator==(float other) const;
+    bool operator==(T other) const;
 
-    bool operator!=(float other) const;
+    bool operator!=(T other) const;
 
-    bool operator<(int other) const;
+    T get_length() const;
 
-    bool operator>(int other) const;
+    T get_real_part() const;
 
-    bool operator==(int other) const;
+    T get_imaginary_part() const;
 
-    bool operator!=(int other) const;
+    void set_real_part(T r);
 
-    float get_length() const;
-
-    float get_real_part() const;
-
-    float get_imaginary_part() const;
-
-    void set_real_part(float r);
-
-    void set_imaginary_part(float i);
+    void set_imaginary_part(T i);
 };
