@@ -1,9 +1,61 @@
-#include "complex_class.h"
-#include <cmath>
+#pragma once
 
+#include <iostream>
+#include <cmath>
+#include <type_traits>
 
 template<typename T>
-Complex<T>::Complex(T r, T i) : real_part(r), imaginary_part(i) {}
+class Complex {
+private:
+    T real_part;
+    T imaginary_part;
+public:
+    Complex(T r = T(0), T i = T(0));
+
+    Complex operator+(const Complex &other) const;
+
+    Complex operator-(const Complex &other) const;
+
+    Complex operator*(const Complex &other) const;
+
+    Complex operator/(const Complex &other) const;
+
+    Complex operator^(double power) const;
+
+    template<typename U>
+    friend std::ostream &operator<<(std::ostream &os, const Complex<U> &obj);
+
+    bool operator<(const Complex &other) const;
+
+    bool operator>(const Complex &other) const;
+
+    bool operator==(const Complex &other) const;
+
+    bool operator!=(const Complex &other) const;
+
+    bool operator<(T other) const;
+
+    bool operator>(T other) const;
+
+    bool operator==(T other) const;
+
+    bool operator!=(T other) const;
+
+    T get_length() const;
+
+    T get_real_part() const;
+
+    T get_imaginary_part() const;
+
+    void set_real_part(T r);
+
+    void set_imaginary_part(T i);
+};
+
+template<typename T>
+Complex<T>::Complex(T r, T i) : real_part(r), imaginary_part(i) {
+    static_assert(std::is_arithmetic<T>::value, "T must be numeric type");
+}
 
 template<typename T>
 Complex<T> Complex<T>::operator+(const Complex &other) const {
@@ -31,7 +83,7 @@ Complex<T> Complex<T>::operator*(const Complex &other) const {
 
 template<typename T>
 Complex<T> Complex<T>::operator/(const Complex &other) const {
-    const T eps = T(1e-6);
+    static const double eps = 1e-6;
 
     T divisor = (other.real_part * other.real_part) + (other.imaginary_part * other.imaginary_part);
 
@@ -53,7 +105,7 @@ Complex<T> Complex<T>::operator^(double power) const {
 
 template<typename T>
 std::ostream &operator<<(std::ostream &os, const Complex<T> &obj) {
-    os << "Complex(" << obj.real_part << "f, " << obj.imaginary_part << "f)";
+    os << "Complex(" << obj.real_part << ", " << obj.imaginary_part << ") type: " << typeid(T).name();
     return os;
 }
 
@@ -121,3 +173,4 @@ template<typename T>
 void Complex<T>::set_imaginary_part(T i) {
     this->imaginary_part = i;
 }
+
