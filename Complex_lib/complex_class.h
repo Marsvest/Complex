@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <type_traits>
 
 template<typename T>
 class Complex {
@@ -52,7 +53,10 @@ public:
 };
 
 template<typename T>
-Complex<T>::Complex(T r, T i) : real_part(r), imaginary_part(i) {}
+Complex<T>::Complex(T r, T i) : real_part(r), imaginary_part(i)
+{
+    static_assert(std::is_arithmetic<T>::value, "T must be numeric type");
+}
 
 template<typename T>
 Complex<T> Complex<T>::operator+(const Complex &other) const {
@@ -170,3 +174,4 @@ template<typename T>
 void Complex<T>::set_imaginary_part(T i) {
     this->imaginary_part = i;
 }
+
